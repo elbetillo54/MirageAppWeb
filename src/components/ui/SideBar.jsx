@@ -22,8 +22,9 @@ const SideBar = () => {
                 <NavLink className={`${ location.pathname == '/menu' ? "text-yellow-600 text-3xl" : "text-black text-3xl"} hover:text-yellow-600`}  activeClassName="text-red-600" to="/menu">Menu</NavLink>
      
                 </li>
+                
                 <li>
-                <NavLink className={`${ location.pathname == '/nuevo-platillo' ? "text-yellow-600 text-3xl" : "text-black text-3xl"} hover:text-yellow-600`}  activeClassName="text-red-600" to="/nuevo-platillo">NuevoPlatillo</NavLink>
+                <NavLink className={`${ location.pathname == '/inventario' ? "text-yellow-600 text-3xl" : "text-black text-3xl"} hover:text-yellow-600`}  activeClassName="text-red-600" to="/inventario">Inventario</NavLink>
                 </li>
                 
               </ul>

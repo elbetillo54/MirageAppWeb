@@ -5,7 +5,7 @@ import { FirebaseContext } from '../../firebase'
 import { Navigate, useNavigate } from 'react-router'
 import FileUploader from "react-firebase-file-uploader"
 
-const NuevoPlatillo = () => {
+const NuevoActivo = () => {
 
     //State para las imagenes
     const [subiendo, guardarSubiendo] = useState(false);
@@ -25,8 +25,8 @@ const NuevoPlatillo = () => {
     const formik = useFormik({
         initialValues: {
             nombre: "",
-            precio: "",
-            categoria: "",
+            cantidad: "",
+            proveedor: "",
             imagen: "",
             descripcion: ""
         },
@@ -34,11 +34,11 @@ const NuevoPlatillo = () => {
             nombre: Yup.string()
                 .min(3, "Los Platillos deben de tener 3 caracteres")
                 .required("El Nombre es obligatorio"),
-            precio: Yup.number()
+            cantidad: Yup.number()
                 .min(1, "Debes agregar un número")
                 .required("El precio es obligatorio"),
 
-            categoria: Yup.string()
+            proveedor: Yup.string()
                 .required("La Categoria es Obligatoria"),
             descripcion: Yup.string()
                 .required("Debes de agregar una descripción")
@@ -47,7 +47,7 @@ const NuevoPlatillo = () => {
             try {
                 datos.existencia = true;
                 datos.imagen = urlimagen;
-                firebase.db.collection('productos').add(datos)
+                firebase.db.collection('inventario').add(datos)
                 
                 resetForm();
                 setResetUploader(true);
@@ -76,7 +76,7 @@ const NuevoPlatillo = () => {
         guardarSubiendo(false);
     
         //Almacenar la url de destino
-        const url = await firebase.storage.ref("productos").child(nombre).getDownloadURL();
+        const url = await firebase.storage.ref("inventario").child(nombre).getDownloadURL();
     
         console.log(url);
         guardarUrlimagen(url);
@@ -88,7 +88,7 @@ const NuevoPlatillo = () => {
     return (
         <>
             <div >
-                <h1 className='text-5xl font-light text-center text-yellow-600 uppercase'>Agregar Platillo</h1>
+                <h1 className='text-5xl font-light text-center text-yellow-600 uppercase'>Agregar Activo</h1>
 
                 <div className='flex justify-center mt-5 '>
                     <div className='w-full max-w-3xl bg-white rounded-md shadow-md '>
@@ -96,12 +96,12 @@ const NuevoPlatillo = () => {
                             <div >
                                 <label
                                     className='block text-gray-700 text-sm font-bold' htmlFor='nombre'>
-                                    Nombre del Platillo</label>
+                                    Nombre del Activo</label>
                                 <input
                                     type='text'
                                     className='shadow appearance-none border rounded w-full mt-2 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mb-3'
                                     id='nombre'
-                                    placeholder='Introduce el nombre del platillo'
+                                    placeholder='Introduce el nombre del activo'
                                     value={formik.values.nombre}
                                     onChange={formik.handleChange}
                                     onBlur={formik.handleBlur}
@@ -116,84 +116,63 @@ const NuevoPlatillo = () => {
                             ) : null}
                             <div className='mb-4'>
                                 <label
-                                    className='block text-gray-700 text-sm font-bold' htmlFor='precio'>
-                                    Precio del Platillo</label>
+                                    className='block text-gray-700 text-sm font-bold' htmlFor='cantidad'>
+                                    Cantidad del activo</label>
                                 <input
                                     type='text'
                                     className='shadow appearance-none border rounded w-full mt-2 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
-                                    id='precio'
+                                    id='cantidad'
                                     placeholder='$20'
                                     min="0"
-                                    value={formik.values.precio}
+                                    value={formik.values.cantidad}
                                     onChange={formik.handleChange}
                                     onBlur={formik.handleBlur}
                                 />
                             </div>
-                            {formik.touched.precio && formik.errors.precio ? (
+                            {formik.touched.cantidad && formik.errors.cantidad ? (
                                 <div role='alert'>
                                     <p className='mt-1 mb-2 text-sm text-red-600'>
-                                        {formik.errors.precio}
+                                        {formik.errors.cantidad}
                                     </p>
                                 </div>
                             ) : null}
                             <div className='mb-4'>
                                 <label
-                                    className='block text-gray-700 text-sm font-bold' htmlFor='categoria'>
-                                    Categoría</label>
-                                <select
-                                    className='shadow appearance-none border rounded w-full mt-2 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-white'
-                                    id='categoria'
-                                    value={formik.values.categoria}
+                                    className='block text-gray-700 text-sm font-bold' htmlFor='proveedor'>
+                                    Proveedor
+                                </label>
+
+                                <input
+                                    type='text'
+                                    className='shadow appearance-none border rounded w-full mt-2 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+                                    id='proveedor'
+                                    placeholder='Introduce el nombre del Proveedor'
+                                    value={formik.values.proveedor}
                                     onChange={formik.handleChange}
                                     onBlur={formik.handleBlur}
-                                >
-                                    <option value=""> --Seleccione Una Opcion--</option>
-                                    <option value="vinos-licores">Vinos y licores</option>
-                                    <option value="tequila-c">Tequila-Copa</option>
-                                    <option value="tequila-s">Tequila-Servicio</option>
-                                    <option value="brandy-c">Brandy-Copa</option>
-                                    <option value="brandy-s">Brandy-Servicio</option>
-                                    <option value="whisky-c">Whisky-Copa</option>
-                                    <option value="whisky-s">Whisky-Servicio</option>
-                                    <option value="ron-c">Ron-Copa</option>
-                                    <option value="ron-s">Ron-Servicio</option>
-                                    <option value="vodka-c">Vodka-Copa</option>
-                                    <option value="vodka-s">Vodka-Servicio</option>
-                                    <option value="ginebra-c">Ginebra-Copa</option>
-                                    <option value="ginebra-s">Ginebra-Servicio</option>
-                                    <option value="cognac-c">Cognac-Copa</option>
-                                    <option value="cognac-s">Cognac-Servicio</option>
-                                    <option value="mixologia-tequila">Mixología-Tequila</option>
-                                    <option value="mixologia-vodka">Mixología-Vodka</option>
-                                    <option value="mixologia-ron">Mixología-Ron</option>
-                                    <option value="mixologia-gin">Mixología-Gin</option>
-                                    <option value="shots">Shots</option>
-                                    <option value="shots-clasicos">Shots-Clasicos</option>
-                                    <option value="shots-flameados">Shots-Flameados</option>
-                                    <option value="cerveza">Cerveza</option>
-                                    <option value="cocteles-bebidas-s/a">Cocteles-Bebidas-s/a</option>
-                                    <option value="mezcal">Mezcal</option>
-                                </select>
+                                />
                             </div>
-                            {formik.touched.categoria && formik.errors.categoria ? (
+
+                            {formik.touched.proveedor && formik.errors.proveedor ? (
                                 <div role='alert'>
                                     <p className='mt-1 mb-2 text-sm text-red-600'>
                                         {formik.errors.categoria}
                                     </p>
                                 </div>
                             ) : null}
+
                             <div className='mb-4'>
                                 <label
-                                    className='block text-gray-700 text-sm font-bold' htmlFor='imagenplatillo'>
-                                    Imagen del Platillo</label>
+                                    className='block text-gray-700 text-sm font-bold' htmlFor='imageninventario'>
+                                    Imagen del Activo</label>
                                 <FileUploader
                                     className="mt-2 w-full file:bg-yellow-600 text-gray-700 text-sm  border file:cursor-pointer cursor-pointer file:border-0 file:py-2 file:px-4 file:mr-4 file:hover:bg-gray-700 file:text-white rounded placeholder:text-gray-400"
                                     key={resetUploader ? Date.now() : "uploader"}
                                     accept="image/*"
-                                    id="imagenplatillo"
-                                    name="imagenplatillo"
+                                    id="imageninventario"
+                                    name="imageninventario"
                                     randomizeFilename
-                                    storageRef={firebase.storage.ref("productos")}
+                                    storageRef={firebase.storage.ref("inventario")}
                                     onUploadStart={handleUploadStart}
                                     onUploadError={handleUploadError}
                                     onUploadSuccess={handleUploadSuccess} // Aquí corregido
@@ -258,4 +237,4 @@ const NuevoPlatillo = () => {
     )
 }
 
-export default NuevoPlatillo;
+export default NuevoActivo;
