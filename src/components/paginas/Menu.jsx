@@ -30,7 +30,7 @@ const Menu = () => {
         <>
 
 
-<div className="container mx-auto md:ml-8 h-screen mt-5 ">
+<div className="container mx-10 md:ml-10 h-screen mt-5 ">
 
         <div className="mt-16 md:flex">
           
@@ -39,7 +39,7 @@ const Menu = () => {
         </div>
 
 
-          <div className='block w-3/5'>
+          <div className='block overflow-y-auto h-screen w-3/5'>
                 <div >
                     <h1 className='text-5xl font-light mb-4 text-center text-yellow-600 uppercase'>Menu</h1>
                 </div>

@@ -38,7 +38,7 @@ const Inventario = () => {
           </div>
   
   
-            <div className='block w-3/5'>
+            <div className='block w-3/5 overflow-y-auto h-screen'>
                   <div >
                       <h1 className='text-5xl font-light mb-4 text-center text-yellow-600 uppercase'>Inventario</h1>
                   </div>
