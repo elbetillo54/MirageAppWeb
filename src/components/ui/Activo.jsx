@@ -46,7 +46,7 @@ const Activo = ({ activo }) => {
         const confirmarEliminar = window.confirm("¿Estás seguro de que deseas eliminar este activo?");
         if (confirmarEliminar) {
             try {
-                await firebase.db.collection("activos").doc(id).delete();
+                await firebase.db.collection("inventario").doc(id).delete();
             } catch (error) {
                 console.log(error);
             }
@@ -63,7 +63,7 @@ const Activo = ({ activo }) => {
                     {!editMode ? (
                         <>
                             <p className='font-bold mb-4'>Nombre del Activo: <span className='font-normal'>{nombre}</span></p>
-                            <p className='font-bold mb-4'>Cantidad del Activo: <span className='font-normal'>{cantidad}$</span></p>
+                            <p className='font-bold mb-4'>Cantidad del Activo: <span className='font-normal'>{cantidad}</span></p>
                             <p className='font-bold mb-4'>Proveedor del Activo: <span className='font-normal'>{proveedor}</span></p>
                             <p className='font-bold mb-4'>Descripción del Activo: <span className='font-normal'>{descripcion}</span></p>
                         </>

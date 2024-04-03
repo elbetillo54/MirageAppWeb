@@ -41,18 +41,22 @@ const NuevoPlatillo = () => {
             categoria: Yup.string()
                 .required("La Categoria es Obligatoria"),
             descripcion: Yup.string()
-                .required("Debes de agregar una descripción")
+                .required("Debes de agregar una descripción"),
+            imagen: Yup.mixed()
+                .required("Debes de Agregar una imagen")
         }),
-        onSubmit: (datos, {resetForm}) => {
+        onSubmit: (datos, { resetForm }) => {
             try {
                 datos.existencia = true;
                 datos.imagen = urlimagen;
                 firebase.db.collection('productos').add(datos)
-                
+
                 resetForm();
                 setResetUploader(true);
                 guardarUrlimagen();
+
                 
+
             } catch (error) {
                 console.log(error);
 
@@ -74,12 +78,13 @@ const NuevoPlatillo = () => {
     const handleUploadSuccess = async (nombre) => {
         guardarProgreso(100);
         guardarSubiendo(false);
-    
+
         //Almacenar la url de destino
         const url = await firebase.storage.ref("productos").child(nombre).getDownloadURL();
-    
+
         console.log(url);
         guardarUrlimagen(url);
+        formik.setFieldValue('imagen', url);
     };
     const handleProgress = progreso => {
         guardarProgreso(progreso)
@@ -199,21 +204,22 @@ const NuevoPlatillo = () => {
                                     onUploadSuccess={handleUploadSuccess} // Aquí corregido
                                     onProgress={handleProgress}
                                 />
+                                
                             </div>
 
-                                {subiendo && (
-                                    <div  className='h-12 w-full border relative'>
+                            {subiendo && (
+                                <div className='h-12 w-full border relative'>
 
-                                        <div className='bg-green-500 absolute left-0 top-0 text-white text-sm px-2 h-12 flex items-center' style={{width: `${progreso}%`}}>
-                                            {progreso} %
-                                        </div>
-
+                                    <div className='bg-green-500 absolute left-0 top-0 text-white text-sm px-2 h-12 flex items-center' style={{ width: `${progreso}%` }}>
+                                        {progreso} %
                                     </div>
-                                )}
 
-                                {urlimagen && (
-                                    <p className='mb-2 text-sm text-green-500 mt-3.5 font-bold'>La imagen se subió correctamente</p>
-                                )}
+                                </div>
+                            )}
+
+                            {urlimagen && (
+                                <p className='mb-2 text-sm text-green-500 mt-3.5 font-bold'>La imagen se subió correctamente</p>
+                            )}
 
                             {formik.touched.imagen && formik.errors.imagen ? (
                                 <div role='alert'>

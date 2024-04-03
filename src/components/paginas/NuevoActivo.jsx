@@ -41,7 +41,9 @@ const NuevoActivo = () => {
             proveedor: Yup.string()
                 .required("La Categoria es Obligatoria"),
             descripcion: Yup.string()
-                .required("Debes de agregar una descripción")
+                .required("Debes de agregar una descripción"),
+            imagen: Yup.mixed()
+                .required("Debes de Agregar una imagen")
         }),
         onSubmit: (datos, {resetForm}) => {
             try {
@@ -80,6 +82,7 @@ const NuevoActivo = () => {
     
         console.log(url);
         guardarUrlimagen(url);
+        formik.setFieldValue('imagen', url);
     };
     const handleProgress = progreso => {
         guardarProgreso(progreso)

@@ -15,7 +15,7 @@ const Ordenes = () => {
 
     useEffect(() => {
         const obtenerOrdenes = () => {
-            firebase.db.collection("ordenes").where("completado", "==", false).onSnapshot(manejarSnapshot)
+            firebase.db.collection("ordenes").onSnapshot(manejarSnapshot)
         }
         obtenerOrdenes()
     }, [])
@@ -30,7 +30,6 @@ const Ordenes = () => {
 
         guardarOrdenes(ordenes);
         console.log(ordenes)
-        
         
     }
 
