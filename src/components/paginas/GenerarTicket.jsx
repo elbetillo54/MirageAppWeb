@@ -10,6 +10,7 @@ const GenerarTicket = () => {
     const [orderId, setOrderId] = useState(null);
     const [order, setOrder] = useState(null);
     const [orderLoaded, setOrderLoaded] = useState(false);
+    const [currentDateTime, setCurrentDateTime] = useState(new Date());
 
     const navigate = useNavigate();
 
@@ -41,36 +42,44 @@ const GenerarTicket = () => {
         }
     }, [location.state]);
 
+    useEffect(() => {
+        const intervalId = setInterval(() => {
+            setCurrentDateTime(new Date());
+        }, 1000);
+
+        return () => clearInterval(intervalId);
+    }, []);
+
     const handlePrint = () => {
         window.print();
         navigate("/")
     };
 
-    const currentDate = new Date();
-    const formattedDate = currentDate.toLocaleDateString();
-
+    const formattedDate = currentDateTime.toLocaleDateString();
+    const formattedTime = currentDateTime.toLocaleTimeString();
     return (
         <div className='bg-yellow-300 w-56'>
-            <div className="ticket-content">
-                <p>====================================</p>
+            <div className="ticket-content" style={{fontWeight: 'bold', fontSize: 25}}> {/* Aplicamos el estilo de fuente en negrita */}
+                <p>================</p>
                 <p>Mirage Del Guadiana</p>
+                <p>{formattedDate}</p>
+                <p>{formattedTime}</p>
                 {orderLoaded && order ? (
                     <>
                         <p>Mesa: {order.mesa}</p>
-                        <p>====================================</p>
+                        <p>===============</p>
                         {order.orden.map((item, index) => (
                             <div key={index}>
                                 <p>{item.count} x {item.nombre}</p>
                                 <p>${item.total}</p>
                             </div>
                         ))}
-                        <p>====================================</p>
+                        <p>================</p>
                         <p>Total de la Orden:</p>
                         <p>${order.total}</p>
                         <p>Le esperamos Pronto!</p>
-                        <p>====================================</p>
-                        <p>====================================</p>
-                        <p>====================================</p>
+                        <p>=================================</p>
+                        <p>=================================</p>
                     </>
                 ) : (
                     <p>Cargando orden...</p>

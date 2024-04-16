@@ -15,14 +15,14 @@ const SideBar = () => {
             </NavLink>
 
             <div className="hidden md:flex justify-between items-center w-full md:w-auto md:order-1" id="mobile-menu-3">
-              <ul className="flex-col md:flex-row flex md:space-x-8 mt-4 md:mt-0 md:text-sm md:font-medium">
-                <li>
-                  <NavLink className={`${location.pathname === '/menu' ? "text-yellow-600 text-3xl" : "text-black text-3xl"} hover:text-yellow-600`} activeClassName="text-red-600" to="/menu">Menu</NavLink>
-                </li>
-                <li>
-                  <NavLink className={`${location.pathname === '/inventario' ? "text-yellow-600 text-3xl" : "text-black text-3xl"} hover:text-yellow-600`} activeClassName="text-red-600" to="/inventario">Inventario</NavLink>
-                </li>
-              </ul>
+              <div className="flex flex-col md:flex-row md:space-x-8 mt-4 md:mt-0 md:text-sm md:font-medium">
+                <NavLink className={`${location.pathname === '/menu' ? "text-yellow-600 text-3xl" : "text-black text-3xl"} hover:text-yellow-600`} activeClassName="text-red-600" to="/menu">
+                  Menu
+                </NavLink>
+                <NavLink className={`${location.pathname === '/inventario' ? "text-yellow-600 text-3xl" : "text-black text-3xl"} hover:text-yellow-600`} activeClassName="text-red-600" to="/inventario">
+                  Inventario
+                </NavLink>
+              </div>
             </div>
           </div>
         </nav>

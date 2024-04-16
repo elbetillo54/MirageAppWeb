@@ -8,7 +8,7 @@ const Activo = ({ activo }) => {
     // Contexto de Firebase para cambios en la base de datos
     const { firebase } = useContext(FirebaseContext);
 
-    const { id, nombre, imagen, cantidad, descripcion, proveedor } = activo;
+    const { id, nombre, imagen, cantidad, descripcion, proveedor, stock } = activo;
 
     // State para controlar el modo de edición
     const [editMode, setEditMode] = useState(false);
@@ -64,6 +64,7 @@ const Activo = ({ activo }) => {
                         <>
                             <p className='font-bold mb-4'>Nombre del Activo: <span className='font-normal'>{nombre}</span></p>
                             <p className='font-bold mb-4'>Cantidad del Activo: <span className='font-normal'>{cantidad}</span></p>
+                            <p className='font-bold mb-4'>Stock del Activo: <span className='font-normal'>{stock}</span></p>
                             <p className='font-bold mb-4'>Proveedor del Activo: <span className='font-normal'>{proveedor}</span></p>
                             <p className='font-bold mb-4'>Descripción del Activo: <span className='font-normal'>{descripcion}</span></p>
                         </>
@@ -80,6 +81,13 @@ const Activo = ({ activo }) => {
                                 type="number"
                                 name="cantidad"
                                 value={editedActivo.cantidad}
+                                onChange={handleInputChange}
+                                className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 mb-2'
+                            />
+                            <input
+                                type="number"
+                                name="stock"
+                                value={editedActivo.stock}
                                 onChange={handleInputChange}
                                 className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 mb-2'
                             />

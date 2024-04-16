@@ -17,6 +17,15 @@ const Orden = ({ orden }) => {
         });
     };
 
+    const eliminarOrden = () => {
+        const ordenRef = firebase.db.collection("ordenes").doc(orden.id);
+        ordenRef.delete().then(() => {
+            console.log("Orden eliminada correctamente");
+        }).catch(error => {
+            console.error("Error al eliminar la orden:", error);
+        });
+    };
+
     const irAGenerarTicket = () => {
         navigate('/generar', { state: { orderId: orden.id } });
     };
@@ -30,6 +39,8 @@ const Orden = ({ orden }) => {
                     <p className='text-gray-600'> {platillos.count} x {platillos.nombre} - {platillos.categoria}</p>
                 ))}
                 <p className=' text-lg'>Total a Pagar: <span className='text-yellow-600 font-bold'> ${orden.total}</span></p>
+                
+                <p className=' text-lg'>Comentarios: <span className='text-yellow-600 font-bold'> {orden.comentarios}</span></p>
 
                 <button className='bg-green-600 w-full mt-5 py-3 text-white' onClick={marcarComoCompletado}>
                     {orden.completado ? "Orden Lista" :  "Marcar como Orden Lista"}
@@ -37,6 +48,10 @@ const Orden = ({ orden }) => {
 
                 <button type="button" className='bg-blue-600 w-full mt-3 py-3 text-white' onClick={irAGenerarTicket}>
                     Generar Ticket
+                </button>
+
+                <button type="button" className='bg-red-600 w-full mt-3 py-3 text-white' onClick={eliminarOrden}>
+                    Eliminar Orden
                 </button>
             </div>
         </div>

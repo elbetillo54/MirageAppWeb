@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import { useFormik } from "formik"
 import * as Yup from "yup"
 import { FirebaseContext } from '../../firebase'
@@ -15,11 +15,6 @@ const NuevoPlatillo = () => {
 
     //Context con las operaciones de firebase 
     const { firebase } = useContext(FirebaseContext);
-
-    //Hook para redireccionar 
-    const navigate = useNavigate();
-
-
 
     //validación y leer los datos del formulario
     const formik = useFormik({
@@ -52,10 +47,10 @@ const NuevoPlatillo = () => {
                 firebase.db.collection('productos').add(datos)
 
                 resetForm();
+                console.log(datos.imagen);
+                
                 setResetUploader(true);
                 guardarUrlimagen();
-
-                
 
             } catch (error) {
                 console.log(error);
@@ -89,6 +84,12 @@ const NuevoPlatillo = () => {
     const handleProgress = progreso => {
         guardarProgreso(progreso)
     }
+
+    useEffect(() => {
+        if (resetUploader) {
+            setResetUploader(false); // Reset the resetUploader state
+        }
+    }, [resetUploader]);
 
     return (
         <>

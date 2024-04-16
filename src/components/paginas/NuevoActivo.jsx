@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import { useFormik } from "formik"
 import * as Yup from "yup"
 import { FirebaseContext } from '../../firebase'
@@ -49,6 +49,7 @@ const NuevoActivo = () => {
             try {
                 datos.existencia = true;
                 datos.imagen = urlimagen;
+                datos.stock = datos.cantidad
                 firebase.db.collection('inventario').add(datos)
                 
                 resetForm();
@@ -88,6 +89,12 @@ const NuevoActivo = () => {
         guardarProgreso(progreso)
     }
 
+    useEffect(() => {
+        if (resetUploader) {
+            setResetUploader(false); // Reset the resetUploader state
+        }
+    }, [resetUploader]);
+
     return (
         <>
             <div >
@@ -125,7 +132,7 @@ const NuevoActivo = () => {
                                     type='text'
                                     className='shadow appearance-none border rounded w-full mt-2 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
                                     id='cantidad'
-                                    placeholder='$20'
+                                    placeholder='20 piezas'
                                     min="0"
                                     value={formik.values.cantidad}
                                     onChange={formik.handleChange}
